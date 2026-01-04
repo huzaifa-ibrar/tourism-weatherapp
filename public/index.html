@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather & City Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=14">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-globe-americas"></i> Weather & City Guide</h1>
+            <p class="subtitle">Discover weather and travel information worldwide</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="cityInput" 
+                    placeholder="Search for a city..."
+                    autocomplete="off"
+                >
+                <button id="searchBtn">Search</button>
+            </div>
+            <button id="locationBtn" class="location-btn">
+                <i class="fas fa-location-arrow"></i> Use My Location
+            </button>
+        </div>
+
+        <div id="loadingSpinner" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <div id="suggestionsSection" class="suggestions-section hidden">
+            <h3>Did you mean?</h3>
+            <p class="suggestions-text">We couldn't find an exact match. Here are some suggestions:</p>
+            <div id="suggestionsList" class="suggestions-list"></div>
+        </div>
+
+        <div id="weatherSection" class="weather-section hidden">
+            <div class="weather-card">
+                <div class="weather-header">
+                    <h2 id="cityName"></h2>
+                    <div id="weatherIcon" class="weather-emoji"></div>
+                </div>
+                <div class="weather-main">
+                    <div class="temperature">
+                        <span id="temperature"></span>°C
+                    </div>
+                    <p id="weatherDescription"></p>
+                </div>
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <span class="label">Feels Like</span>
+                        <span id="feelsLike"></span>°C
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Min / Max</span>
+                        <span id="tempRange"></span>°C
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Humidity</span>
+                        <span id="humidity"></span>%
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Wind Speed</span>
+                        <span id="windSpeed"></span> m/s
+                    </div>
+                </div>
+            </div>
+
+            <div class="hourly-forecast-card">
+                <div class="hourly-header">
+                    <h3><i class="fas fa-clock"></i> 24-Hour Forecast</h3>
+                    <button class="scroll-btn scroll-left" id="scrollLeft">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn scroll-right" id="scrollRight">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="hourly-scroll-container" id="hourlyContainer">
+                    <div class="hourly-items" id="hourlyForecast"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cityInfoSection" class="city-info-section hidden">
+            <div class="interactive-sections">
+                <div class="info-card">
+                    <h3>About <span id="infoCity"></span></h3>
+                    <p id="cityDescription"></p>
+                </div>
+                <div class="section-preview" id="famousPlacesPreview">
+                    <div class="preview-header">
+                        <h3><i class="fas fa-landmark"></i> Famous Places</h3>
+                        <span class="preview-count" id="famousPlacesCount">0 places</span>
+                    </div>
+                    <div class="preview-grid" id="famousPlacesGrid"></div>
+                    <button class="view-all-btn" onclick="app.openSlider('famousPlaces')">
+                        View All & Explore <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="section-preview" id="thingsToDoPreview">
+                    <div class="preview-header">
+                        <h3><i class="fas fa-compass"></i> Things To Do</h3>
+                        <span class="preview-count" id="thingsToDoCount">0 activities</span>
+                    </div>
+                    <div class="preview-grid" id="thingsToDoGrid"></div>
+                    <button class="view-all-btn" onclick="app.openSlider('thingsToDo')">
+                        View All & Explore <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="section-preview">
+                    <div class="preview-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Best Seasons to Visit</h3>
+                    </div>
+                    <div id="bestSeasonsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sliderModal" class="slider-modal hidden">
+        <div class="modal-overlay" onclick="app.closeSlider()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="app.closeSlider()">✕</button>
+            <div class="slider-header">
+                <h2 id="sliderTitle"></h2>
+                <div class="slider-counter">
+                    <span id="currentSlide">1</span> / <span id="totalSlides">1</span>
+                </div>
+            </div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="app.prevSlide()">‹</button>
+                <div class="slider-content">
+                    <div class="slide-item" id="slideContent">
+                        <div class="slide-icon" id="slideIcon"></div>
+                        <h3 id="slideItemTitle"></h3>
+                        <p id="slideItemDescription"></p>
+                    </div>
+                </div>
+                <button class="slider-nav next" onclick="app.nextSlide()">›</button>
+            </div>
+            <div class="slider-dots" id="sliderDots"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=9"></script>
+</body>
+</html>
+
