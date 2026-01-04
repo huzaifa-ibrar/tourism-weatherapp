@@ -41,6 +41,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    overflow: hidden;
 }
 
 .search-section,
@@ -49,6 +50,7 @@ body {
 .suggestions-section {
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 header {
@@ -101,6 +103,7 @@ header h1 i {
     margin-bottom: 40px;
     animation: fadeInUp 0.6s ease-out 0.2s both;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 @keyframes fadeInUp {
@@ -221,6 +224,7 @@ header h1 i {
     animation: fadeInUp 0.6s ease-out;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .suggestions-section h3 {
@@ -308,6 +312,8 @@ header h1 i {
     margin-bottom: 30px;
     display: grid;
     gap: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .weather-card {
@@ -319,6 +325,7 @@ header h1 i {
     border: 1px solid rgba(255, 255, 255, 0.8);
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .weather-card:hover {
@@ -437,6 +444,8 @@ header h1 i {
     display: grid;
     gap: 30px;
     animation: fadeInUp 0.6s ease-out 0.4s both;
+    width: 100%;
+    overflow: hidden;
 }
 
 .info-card {
@@ -491,6 +500,8 @@ header h1 i {
 .interactive-sections {
     display: grid;
     gap: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .section-preview {
@@ -740,6 +751,7 @@ header h1 i {
     border: 1px solid rgba(255, 255, 255, 0.8);
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .hourly-header {
@@ -796,36 +808,25 @@ header h1 i {
 }
 
 .hourly-scroll-container {
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color) var(--bg-lighter);
+    scrollbar-width: none;
+    position: relative;
+    width: 100%;
 }
 
 .hourly-scroll-container::-webkit-scrollbar {
-    height: 8px;
-}
-
-.hourly-scroll-container::-webkit-scrollbar-track {
-    background: var(--bg-lighter);
-    border-radius: 10px;
-}
-
-.hourly-scroll-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border-radius: 10px;
-}
-
-.hourly-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-dark);
+    display: none;
 }
 
 .hourly-items {
     display: flex;
     gap: 15px;
     padding: 10px 0;
+    transition: transform 0.4s ease;
+    will-change: transform;
 }
 
 .hourly-item {

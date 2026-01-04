@@ -201,6 +201,11 @@ class WeatherApp {
     displayHourlyForecast(hourlyData) {
         const container = document.getElementById('hourlyForecast');
         container.innerHTML = '';
+        
+        // Store hourly data for carousel navigation
+        this.hourlyData = hourlyData;
+        this.currentHourIndex = 0;
+        this.itemsPerView = this.getItemsPerView();
 
         hourlyData.forEach((hour, index) => {
             const time = new Date(hour.time);
@@ -227,25 +232,67 @@ class WeatherApp {
             this.setupHourlyScroll();
             this.hourlyScrollSetup = true;
         }
+        
+        // Update scroll position
+        this.updateHourlyScroll();
+    }
+    
+    getItemsPerView() {
+        const width = window.innerWidth;
+        if (width <= 480) return 3;
+        if (width <= 768) return 5;
+        if (width <= 1024) return 7;
+        return 8;
     }
 
     setupHourlyScroll() {
-        const container = document.getElementById('hourlyContainer');
         const scrollLeft = document.getElementById('scrollLeft');
         const scrollRight = document.getElementById('scrollRight');
 
-        if (!container || !scrollLeft || !scrollRight) {
+        if (!scrollLeft || !scrollRight) {
             console.error('Hourly scroll elements not found');
             return;
         }
 
         scrollLeft.onclick = () => {
-            container.scrollBy({ left: -300, behavior: 'smooth' });
+            this.scrollHourlyLeft();
         };
 
         scrollRight.onclick = () => {
-            container.scrollBy({ left: 300, behavior: 'smooth' });
+            this.scrollHourlyRight();
         };
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            this.itemsPerView = this.getItemsPerView();
+            this.updateHourlyScroll();
+        });
+    }
+    
+    scrollHourlyLeft() {
+        if (this.currentHourIndex > 0) {
+            this.currentHourIndex--;
+            this.updateHourlyScroll();
+        }
+    }
+    
+    scrollHourlyRight() {
+        const maxIndex = Math.max(0, this.hourlyData.length - this.itemsPerView);
+        if (this.currentHourIndex < maxIndex) {
+            this.currentHourIndex++;
+            this.updateHourlyScroll();
+        }
+    }
+    
+    updateHourlyScroll() {
+        const container = document.getElementById('hourlyForecast');
+        if (!container) return;
+        
+        const itemWidth = 110; // width of each hourly-item
+        const gap = 15; // gap between items
+        const translateX = -(this.currentHourIndex * (itemWidth + gap));
+        
+        container.style.transform = `translateX(${translateX}px)`;
     }
 
     getWeatherIconClass(description) {
